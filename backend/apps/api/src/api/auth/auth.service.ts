@@ -19,7 +19,7 @@ import type { ConfigType } from '@nestjs/config';
 import { UserCacheService } from '@app/common/cache/user-cache.service';
 import type { Response } from 'express';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
-import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '../constants';
+import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '../../constants';
 import { AuthTokens } from './types';
 
 @Injectable()

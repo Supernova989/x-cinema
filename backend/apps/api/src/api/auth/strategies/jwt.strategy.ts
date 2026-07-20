@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 import { AuthStrategy } from '@app/common/types/auth-strategy';
 import moment from 'moment';
 import { JwtPayload } from '@app/common/types/jwt-payload';
-import { ACCESS_TOKEN_COOKIE_NAME } from '../../constants';
+import { ACCESS_TOKEN_COOKIE_NAME } from '../../../constants';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, AuthStrategy.JWT) {

@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import type { User } from '@app/common/database/schema';
-import { LocalAuthGuard } from '../common/guards/local-auth.guard';
-import { Public } from '../common/decorators/public.decorator';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
+import { Public } from '../../common/decorators/public.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { REFRESH_TOKEN_COOKIE_NAME } from '../../constants';
 import { AuthService } from './auth.service';
-import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '../constants';
 
 @Controller('auth')
 export class AuthController {

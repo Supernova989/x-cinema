@@ -9,12 +9,9 @@ import { RedisModule } from '@app/common/redis/redis.module';
 import { BullMqModule } from '@app/common/bullmq/bull-mq.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './common/guards/roles.guard';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
-import { MeModule } from './modules/me/me.module';
-import { TicketsModule } from './modules/tickets/tickets.module';
-import { MoviesModule } from './modules/movies/movies.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
@@ -25,17 +22,12 @@ import { MoviesModule } from './modules/movies/movies.module';
     DatabaseModule,
     RedisModule,
     BullMqModule,
-    AuthModule,
-    MeModule,
-    TicketsModule,
-    MoviesModule,
+    ApiModule,
   ],
   controllers: [AppController],
   providers: [
     //
     AppService,
-    { provide: APP_GUARD, useClass: JwtAuthGuard },
-    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class AppModule {}
