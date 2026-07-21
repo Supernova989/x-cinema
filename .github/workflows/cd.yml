@@ -9,67 +9,49 @@ permissions:
   contents: read
   packages: write
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_PREFIX: ${{ github.repository_owner }}
-
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Login to GHCR
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (Backend)
-        id: backend-meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/xcinema-backend
-          tags: |
-            type=raw,value=latest
-            type=sha
-
-      - name: Build & Push Backend
+      - name: Build backend
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
-          tags: ${{ steps.backend-meta.outputs.tags }}
-          labels: ${{ steps.backend-meta.outputs.labels }}
+          tags: ghcr.io/${{ github.repository_owner }}/xcinema-backend:latest
 
-      - name: Extract metadata (Frontend)
-        id: frontend-meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/xcinema-frontend
-          tags: |
-            type=raw,value=latest
-            type=sha
-
-      - name: Build & Push Frontend
+      - name: Build frontend
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: true
-          tags: ${{ steps.frontend-meta.outputs.tags }}
-          labels: ${{ steps.frontend-meta.outputs.labels }}
+          tags: ghcr.io/${{ github.repository_owner }}/xcinema-frontend:latest
 
-      - name: Deploy to Raspberry Pi
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.PI_HOST }}
-          username: ${{ secrets.PI_USER }}
-          key: ${{ secrets.PI_SSH_KEY }}
-          script: |
-            cd /home/max/xcinema
-            docker compose pull
-            docker compose up -d
-            docker image prune -f
+  deploy:
+    needs: publish
+
+    runs-on:
+      - self-hosted
+      - Linux
+      - ARM64
+
+    steps:
+      - name: Pull latest images
+        working-directory: ${{ secrets.PI_WORKING_DIR }}
+        run: docker compose pull
+
+      - name: Restart containers
+        working-directory: ${{ secrets.PI_WORKING_DIR }}
+        run: docker compose up -d
+
+      - name: Remove unused images
+        run: docker image prune -f
