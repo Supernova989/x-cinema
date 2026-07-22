@@ -19,7 +19,7 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { REFRESH_TOKEN_COOKIE_NAME } from '../../constants';
 import { AuthService } from './auth.service';
 
-@Controller('auth')
+@Controller('api/v1/authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -35,7 +35,7 @@ export class AuthController {
   @Public()
   @Post('refresh')
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const refreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE_NAME];
+    const refreshToken = req.cookies?.[REFRESH_TOKEN_COOKIE_NAME] as string;
 
     if (!refreshToken) {
       this.authService.clearAuthCookies(res);
