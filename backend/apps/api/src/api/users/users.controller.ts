@@ -1,37 +1,32 @@
 import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
-import { MoviesService } from './movies.service';
-import { Public } from '../../common/decorators/public.decorator';
+import { UsersService } from './users.service';
 import { RequireRoles } from '../../common/decorators/require-roles.decorator';
 
-@Controller('api/v1/movies')
-export class MoviesController {
-  constructor(private readonly movieService: MoviesService) {}
+@Controller('api/v1/users')
+@RequireRoles('admin')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
-  @Public()
   @Get()
   paginate() {
     //
   }
 
-  @Public()
   @Get(':id')
   get() {
     //
   }
 
-  @RequireRoles('admin')
   @Get(':id')
   create(@Body() dto: any) {
     //
   }
 
-  @RequireRoles('admin')
   @Patch(':id')
   patch(@Param('id') id: string) {
     //
   }
 
-  @RequireRoles('admin')
   @Delete(':id')
   delete(@Param('id') id: string) {
     //
