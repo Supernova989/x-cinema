@@ -10,7 +10,7 @@ type AdminRouteProps = {
 export function AdminRoute({ children }: AdminRouteProps) {
   const { data: user } = useCurrentUser();
 
-  if (user.role !== UserRole.ADMIN) {
+  if (user?.role !== UserRole.ADMIN) {
     return <Navigate to="/" replace />;
   }
 
