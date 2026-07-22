@@ -1,5 +1,5 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const HomePage: React.FC = () => {
-    return <>Home</>;
+  return <>Home</>;
 };

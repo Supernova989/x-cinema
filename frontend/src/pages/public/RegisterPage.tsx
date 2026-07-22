@@ -1,5 +1,5 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const RegisterPage: React.FC = () => {
-    return <></>;
+  return <></>;
 };

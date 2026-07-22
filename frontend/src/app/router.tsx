@@ -1,7 +1,4 @@
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { AccountLayout } from './layouts/account/AccountLayout.tsx';
 import { PublicLayout } from './layouts/public/PublicLayout.tsx';
@@ -19,70 +16,70 @@ import { LocationsPage } from '@/pages/admin/LocationsPage';
 import { RoomsPage } from '@/pages/admin/RoomsPage';
 
 const router = createBrowserRouter([
-    {
-        element: <PublicLayout />,
-        children: [
-            {
-                index: true,
-                element: <HomePage />,
-            },
-            {
-                path: 'login',
-                element: <LoginPage />,
-            },
-            {
-                path: 'register',
-                element: <RegisterPage />,
-            },
-        ],
-    },
-    {
-        element: (
-            <ProtectedRoute>
-                <AccountLayout />
-            </ProtectedRoute>
-        ),
-        children: [
-            {
-                path: 'account',
-                element: <AccountPage />,
-            },
-            {
-                path: 'orders',
-                element: <OrdersPage />,
-            },
-        ],
-    },
-    {
-        path: 'admin',
-        element: (
-            <ProtectedRoute>
-                <AdminRoute>
-                    <AdminLayout />
-                </AdminRoute>
-            </ProtectedRoute>
-        ),
-        children: [
-            {
-                path: 'users',
-                element: <UsersPage />,
-            },
-            {
-                path: 'movies',
-                element: <MoviesPage />,
-            },
-            {
-                path: 'locations',
-                element: <LocationsPage />,
-            },
-            {
-                path: 'rooms',
-                element: <RoomsPage />,
-            },
-        ],
-    },
+  {
+    element: <PublicLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
+        path: 'register',
+        element: <RegisterPage />,
+      },
+    ],
+  },
+  {
+    element: (
+      <ProtectedRoute>
+        <AccountLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: 'account',
+        element: <AccountPage />,
+      },
+      {
+        path: 'orders',
+        element: <OrdersPage />,
+      },
+    ],
+  },
+  {
+    path: 'admin',
+    element: (
+      <ProtectedRoute>
+        <AdminRoute>
+          <AdminLayout />
+        </AdminRoute>
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: 'users',
+        element: <UsersPage />,
+      },
+      {
+        path: 'movies',
+        element: <MoviesPage />,
+      },
+      {
+        path: 'locations',
+        element: <LocationsPage />,
+      },
+      {
+        path: 'rooms',
+        element: <RoomsPage />,
+      },
+    ],
+  },
 ]);
 
 export function AppRouter() {
-    return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
