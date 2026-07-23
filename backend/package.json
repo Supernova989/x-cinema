@@ -23,6 +23,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config apps/api/test/jest-e2e.json",
     "db:generate": "drizzle-kit generate",
+    "db:generate:customer": "drizzle-kit generate --name=seed_default_admin --custom",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:check": "drizzle-kit check",

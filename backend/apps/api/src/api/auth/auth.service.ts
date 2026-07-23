@@ -17,7 +17,7 @@ import { SessionService } from '@app/common/sessions/sessions.service';
 import jwtConfig from '@app/common/config/jwt';
 import type { ConfigType } from '@nestjs/config';
 import { UserCacheService } from '@app/common/cache/user-cache.service';
-import type { Response } from 'express';
+import type { CookieOptions, Response } from 'express';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '../../constants';
 import { AuthTokens } from './types';
@@ -30,13 +30,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly database: DatabaseService,
     @Inject(jwtConfig.KEY) private readonly jwtCfg: ConfigType<typeof jwtConfig>,
-  ) {
-    // setTimeout(async () => {
-    //   const r = await this.login({ id: '77035458-b2ad-4ca4-80ac-6291c1d8e396' } as any);
-    //
-    //   console.log('res', r);
-    // }, 5000);
-  }
+  ) {}
 
   /**
    * Authenticates a user and generates an access token.
@@ -177,22 +171,6 @@ export class AuthService {
   }
 
   /**
-   * Sets cookies on the provided HTTP response object using the given key-value pairs.
-   *
-   * @param {Response} response - The HTTP response object where cookies will be set.
-   * @param {Record<string, string>} keyVals - An object containing key-value pairs of cookies to set.
-   */
-  setCookies(response: Response, keyVals: Record<string, string>) {
-    Object.entries(keyVals).forEach(([key, value]) => {
-      response.cookie(key, value, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-      });
-    });
-  }
-
-  /**
    * Safely verifies whether the provided password matches the given hashed password.
    * Handles any errors that might occur during the verification process and returns false in such cases.
    *
@@ -281,6 +259,6 @@ export class AuthService {
       httpOnly: true,
       secure: this.jwtCfg.COOKIE_SECURE,
       sameSite: 'strict' as const,
-    };
+    } as CookieOptions;
   }
 }
